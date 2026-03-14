@@ -8,7 +8,7 @@ const FigmaTipsCard = () => {
   const avatars = [user2, user3, user4, user5];
   return (
     <div className="bg-card rounded-xl overflow-hidden col-span-full lg:col-span-4">
-      <div className="bg-gradient-to-br from-purple-100 to-pink-50 p-4 flex items-center justify-center h-[160px]">
+      <div className="bg-secondary p-4 flex items-center justify-center h-[160px]">
         <img src={giftsImg} alt="Gifts" className="h-full object-contain" />
       </div>
       <div className="p-5">
