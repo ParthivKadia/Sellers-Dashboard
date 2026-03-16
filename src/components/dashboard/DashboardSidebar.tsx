@@ -48,11 +48,11 @@ const DashboardSidebar = () => {
             </p>
             {section.items.map((item) => {
               const Icon = item.icon;
-              const isActive = item.label === activeItem;
+              const isActive = item.path ? location.pathname === item.path : false;
               return (
                 <button
                   key={item.label}
-                  onClick={() => setActiveItem(item.label)}
+                  onClick={() => item.path ? navigate(item.path) : undefined}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors mb-0.5 ${
                     isActive
                       ? "bg-sidebar-accent text-sidebar-primary font-semibold"
