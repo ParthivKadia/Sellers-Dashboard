@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Users, FileText, MessageSquare, StickyNote,
-  Calendar, Mail, Ticket, Columns, Receipt, Settings, ChevronDown, Zap
+  Calendar, Mail, Ticket, Columns, Receipt, Settings, ChevronDown, Zap, Package
 } from "lucide-react";
 
 const menuItems = [
   { section: "HOME", items: [
-    { label: "Dashboard", icon: LayoutDashboard, active: true },
-    { label: "Dashboard 2", icon: LayoutDashboard, active: false },
+    { label: "Dashboard", icon: LayoutDashboard, path: "/" },
+    { label: "Inventory", icon: Package, path: "/inventory" },
   ]},
   { section: "APPS", items: [
     { label: "Contacts", icon: Users },
