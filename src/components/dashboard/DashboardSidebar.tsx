@@ -1,5 +1,4 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Users, FileText, MessageSquare, StickyNote,
   Calendar, Mail, Ticket, Columns, Receipt, Settings, ChevronDown, Zap, Package
