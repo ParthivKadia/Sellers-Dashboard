@@ -28,7 +28,8 @@ const menuItems = [
 ];
 
 const DashboardSidebar = () => {
-  const [activeItem, setActiveItem] = useState("Dashboard 2");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <aside className="w-[270px] min-h-screen bg-card border-r border-sidebar-border flex flex-col shrink-0">
