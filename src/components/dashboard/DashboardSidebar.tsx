@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Users, FileText, MessageSquare, StickyNote,
-  Calendar, Mail, Ticket, Columns, Receipt, Settings, ChevronDown, Zap
+  Calendar, Mail, Ticket, Columns, Receipt, Settings, ChevronDown, Zap, Package
 } from "lucide-react";
 
 const menuItems = [
   { section: "HOME", items: [
-    { label: "Dashboard", icon: LayoutDashboard, active: true },
-    { label: "Dashboard 2", icon: LayoutDashboard, active: false },
+    { label: "Dashboard", icon: LayoutDashboard, path: "/" },
+    { label: "Inventory", icon: Package, path: "/inventory" },
   ]},
   { section: "APPS", items: [
     { label: "Contacts", icon: Users },
@@ -27,7 +27,8 @@ const menuItems = [
 ];
 
 const DashboardSidebar = () => {
-  const [activeItem, setActiveItem] = useState("Dashboard 2");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <aside className="w-[270px] min-h-screen bg-card border-r border-sidebar-border flex flex-col shrink-0">
@@ -46,11 +47,11 @@ const DashboardSidebar = () => {
             </p>
             {section.items.map((item) => {
               const Icon = item.icon;
-              const isActive = item.label === activeItem;
+              const isActive = item.path ? location.pathname === item.path : false;
               return (
                 <button
                   key={item.label}
-                  onClick={() => setActiveItem(item.label)}
+                  onClick={() => item.path ? navigate(item.path) : undefined}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors mb-0.5 ${
                     isActive
                       ? "bg-sidebar-accent text-sidebar-primary font-semibold"
