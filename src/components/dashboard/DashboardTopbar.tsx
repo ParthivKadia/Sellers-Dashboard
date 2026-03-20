@@ -1,5 +1,6 @@
 import { Search, Bell, Menu, Settings } from "lucide-react";
 import user2 from "@/assets/user-2.jpg";
+import { ModeToggle } from "../mode-toggle"
 
 interface Props {
   onToggleSidebar?: () => void;
@@ -23,6 +24,7 @@ const DashboardTopbar = ({ onToggleSidebar }: Props) => {
       </div>
 
       <div className="flex items-center gap-3">
+        <ModeToggle />
         <button className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-secondary text-muted-foreground">
           <Bell className="w-[18px] h-[18px]" />
         </button>
