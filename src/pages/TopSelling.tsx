@@ -1,6 +1,6 @@
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
-import PendingShipmentsCard from "@/components/dashboard/PendingShipmentsCard";
+// import PendingShipmentsCard from "@/components/dashboard/PendingShipmentsCard";
 import TopProductsTable from "@/components/dashboard/TopProductsTable";
 
 export default function TopSelling() {

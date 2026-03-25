@@ -1,19 +1,19 @@
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
-import PendingShipmentsCard from "@/components/dashboard/PendingShipmentsCard";
+// import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+// import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
+// import PendingShipmentsCard from "@/components/dashboard/PendingShipmentsCard";
 
-export default function Pending() {
-    return (
-        <div className="flex min-h-screen bg-background">
-        <DashboardSidebar />
+// export default function Pending() {
+//     return (
+//         <div className="flex min-h-screen bg-background">
+//         <DashboardSidebar />
 
-        <div className="flex-1 flex flex-col">
-            <DashboardTopbar />
+//         <div className="flex-1 flex flex-col">
+//             <DashboardTopbar />
 
-            <main className="p-6 space-y-6">
-                <PendingShipmentsCard />
-            </main>
-            </div>
-        </div>
-    )
-}
+//             <main className="p-6 space-y-6">
+//                 <PendingShipmentsCard />
+//             </main>
+//             </div>
+//         </div>
+//     )
+// }

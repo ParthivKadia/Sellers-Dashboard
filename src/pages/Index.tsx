@@ -9,7 +9,7 @@ import TrafficDistribution from "@/components/dashboard/TrafficDistribution";
 // import RecentOrdersCard from "@/components/dashboard/RecentOrdersCard";
 // import LowStockAlerts from "@/components/dashboard/LowStockAlerts";
 import TopProductsTable from "@/components/dashboard/TopProductsTable";
-import PendingShipmentsCard from "@/components/dashboard/PendingShipmentsCard";
+// import PendingShipmentsCard from "@/components/dashboard/PendingShipmentsCard";
 import RecentOrdersCard from "@/components/dashboard/RecentOrdersCard";
 import LowStockAlerts from "@/components/dashboard/LowStockAlerts";
 
