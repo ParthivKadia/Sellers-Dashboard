@@ -53,7 +53,9 @@ import AccountSettings from "./pages/Settings/AccountSettings";
 import Notifications from "./pages/Settings/Notifications";
 import RolesPermissions from "./pages/Settings/RolesPermissions";
 import Security from "./pages/Settings/Security";
-import LogoutPage from "./pages/Settings/LogOutPage.tsx";
+// import LogoutPage from "./pages/Settings/LogoutPage.tsx";
+import LogOutPage from "./pages/Settings/LogOutPage";
+
 
 const queryClient = new QueryClient();
 
@@ -114,7 +116,7 @@ export default function App() {
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/roles-permissions" element={<RolesPermissions />} />
               <Route path="/security" element={<Security />} />
-              <Route path="/logout" element={<LogoutPage />} />
+              <Route path="/logout" element={<LogOutPage />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>

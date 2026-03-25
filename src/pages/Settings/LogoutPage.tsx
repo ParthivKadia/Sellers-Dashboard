@@ -1,4 +1,4 @@
-export default function LogoutPage() {
+export default function LogOutPage() {
   return (
     <div style={{ padding: 28, fontFamily: "'DM Sans', sans-serif" }}>
       <h1>Logout</h1>
