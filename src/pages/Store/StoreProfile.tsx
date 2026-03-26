@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 
 type StoreProfileData = {
   storeName: string;
@@ -87,188 +87,483 @@ export default function StoreProfile() {
   };
 
   return (
-    <div
-      style={{
-        padding: "28px",
-        background: "#f8fafc",
-        minHeight: "100vh",
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: 16,
-          marginBottom: 24,
-          flexWrap: "wrap",
-        }}
-      >
-        <div>
-          <h1 style={{ margin: 0, fontSize: 26, fontWeight: 700, color: "#0f172a" }}>
-            Store Profile
-          </h1>
-          <p style={{ margin: "4px 0 0", fontSize: 14, color: "#64748b" }}>
-            Manage your storefront identity, business information, and brand details
-          </p>
-        </div>
+    <>
+      <style>{`
+        * {
+          box-sizing: border-box;
+        }
 
-        {!isEditing ? (
-          <button style={primaryButtonStyle} onClick={handleEdit}>
-            Edit Profile
-          </button>
-        ) : (
-          <div style={{ display: "flex", gap: 10 }}>
-            <button style={secondaryButtonStyle} onClick={handleCancel}>
-              Cancel
-            </button>
-            <button style={primaryButtonStyle} onClick={handleSave}>
-              Save Changes
-            </button>
+        .store-profile-page {
+          min-height: 100vh;
+          padding: 24px;
+          background: #f8fafc;
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        .store-profile-shell {
+          max-width: 1400px;
+          margin: 0 auto;
+        }
+
+        .page-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 16px;
+          margin-bottom: 24px;
+          flex-wrap: wrap;
+        }
+
+        .page-header h1 {
+          margin: 0;
+          font-size: 30px;
+          line-height: 1.2;
+          font-weight: 700;
+          color: #0f172a;
+        }
+
+        .page-header p {
+          margin: 6px 0 0;
+          font-size: 15px;
+          color: #64748b;
+        }
+
+        .header-actions {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+          border: none;
+          cursor: pointer;
+          font-family: inherit;
+          transition: all 0.2s ease;
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+          transform: translateY(-1px);
+        }
+
+        .primary-btn {
+          padding: 12px 18px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #2563eb, #1d4ed8);
+          color: #fff;
+          font-size: 14px;
+          font-weight: 700;
+          box-shadow: 0 10px 20px rgba(37, 99, 235, 0.22);
+        }
+
+        .secondary-btn {
+          padding: 12px 16px;
+          border-radius: 12px;
+          border: 1px solid #dbe4f0;
+          background: #fff;
+          color: #334155;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 16px;
+          margin-bottom: 24px;
+        }
+
+        .card {
+          background: #fff;
+          border-radius: 18px;
+          padding: 20px;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+          min-width: 0;
+        }
+
+        .stat-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 12px;
+        }
+
+        .stat-label {
+          font-size: 14px;
+          color: #64748b;
+          font-weight: 500;
+        }
+
+        .stat-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          flex-shrink: 0;
+        }
+
+        .stat-value {
+          font-size: 30px;
+          font-weight: 700;
+          line-height: 1.1;
+          word-break: break-word;
+        }
+
+        .stat-subtext {
+          font-size: 13px;
+          color: #94a3b8;
+          margin-top: 6px;
+        }
+
+        .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 18px;
+          flex-wrap: wrap;
+        }
+
+        .card-title {
+          margin: 0;
+          font-size: 18px;
+          font-weight: 700;
+          color: #0f172a;
+        }
+
+        .pill {
+          font-size: 12px;
+          font-weight: 700;
+          padding: 6px 10px;
+          border-radius: 999px;
+          background: #eff6ff;
+          color: #2563eb;
+          white-space: nowrap;
+        }
+
+        .business-card {
+          margin-bottom: 24px;
+        }
+
+        .fields-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 18px;
+        }
+
+        .field-label {
+          display: block;
+          margin-bottom: 8px;
+          font-size: 13px;
+          font-weight: 600;
+          color: #475569;
+        }
+
+        .input,
+        .textarea,
+        .readonly,
+        .readonly-block {
+          width: 100%;
+          border-radius: 12px;
+          font-size: 14px;
+          color: #0f172a;
+        }
+
+        .input,
+        .textarea {
+          padding: 11px 12px;
+          border: 1.5px solid #dbe3ef;
+          outline: none;
+          background: #fff;
+          font-family: inherit;
+        }
+
+        .textarea {
+          min-height: 110px;
+          resize: vertical;
+        }
+
+        .readonly {
+          padding: 11px 12px;
+          border: 1px solid #e2e8f0;
+          background: #f8fafc;
+        }
+
+        .readonly-block {
+          padding: 14px 12px;
+          border: 1px solid #e2e8f0;
+          background: #f8fafc;
+          line-height: 1.6;
+        }
+
+        .section-gap {
+          margin-top: 18px;
+        }
+
+        .bottom-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+          gap: 16px;
+        }
+
+        .info-list {
+          display: grid;
+          gap: 14px;
+        }
+
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 0;
+          border-bottom: 1px solid #f1f5f9;
+        }
+
+        .info-row:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .info-label {
+          font-size: 14px;
+          color: #64748b;
+        }
+
+        .info-value {
+          font-size: 14px;
+          font-weight: 700;
+          color: #0f172a;
+          text-align: right;
+        }
+
+        @media (max-width: 1200px) {
+          .stats-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 900px) {
+          .store-profile-page {
+            padding: 18px;
+          }
+
+          .fields-grid,
+          .bottom-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .page-header h1 {
+            font-size: 26px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .store-profile-page {
+            padding: 14px;
+          }
+
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .page-header {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .header-actions {
+            width: 100%;
+          }
+
+          .header-actions button {
+            flex: 1;
+          }
+
+          .info-row {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .info-value {
+            text-align: left;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .page-header h1 {
+            font-size: 22px;
+          }
+
+          .page-header p {
+            font-size: 14px;
+          }
+
+          .card {
+            padding: 16px;
+            border-radius: 14px;
+          }
+
+          .primary-btn,
+          .secondary-btn {
+            width: 100%;
+          }
+        }
+      `}</style>
+
+      <div className="store-profile-page">
+        <div className="store-profile-shell">
+          <div className="page-header">
+            <div>
+              <h1>Store Profile</h1>
+              <p>Manage your storefront identity, business information, and brand details</p>
+            </div>
+
+            {!isEditing ? (
+              <button className="primary-btn" onClick={handleEdit}>
+                Edit Profile
+              </button>
+            ) : (
+              <div className="header-actions">
+                <button className="secondary-btn" onClick={handleCancel}>
+                  Cancel
+                </button>
+                <button className="primary-btn" onClick={handleSave}>
+                  Save Changes
+                </button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: 16,
-          marginBottom: 24,
-        }}
-      >
-        {stats.map((item) => (
-          <div key={item.label} style={cardStyle}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
-                {item.label}
-              </span>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 12,
-                  background: item.bg,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 18,
-                }}
-              >
-                {item.icon}
+          <div className="stats-grid">
+            {stats.map((item) => (
+              <div key={item.label} className="card">
+                <div className="stat-top">
+                  <span className="stat-label">{item.label}</span>
+                  <div className="stat-icon" style={{ background: item.bg }}>
+                    {item.icon}
+                  </div>
+                </div>
+                <div className="stat-value" style={{ color: item.color }}>
+                  {item.value}
+                </div>
+                <div className="stat-subtext">{item.subtext}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="card business-card">
+            <div className="card-header">
+              <h3 className="card-title">Business Information</h3>
+              <span className="pill">{isEditing ? "Editing" : "Profile Overview"}</span>
+            </div>
+
+            <div className="fields-grid">
+              <Field
+                label="Store Name"
+                value={isEditing ? draft.storeName : profile.storeName}
+                editing={isEditing}
+                onChange={(value) => handleChange("storeName", value)}
+              />
+              <Field
+                label="Business Category"
+                value={isEditing ? draft.businessCategory : profile.businessCategory}
+                editing={isEditing}
+                onChange={(value) => handleChange("businessCategory", value)}
+              />
+              <Field
+                label="Support Email"
+                value={isEditing ? draft.supportEmail : profile.supportEmail}
+                editing={isEditing}
+                onChange={(value) => handleChange("supportEmail", value)}
+              />
+              <Field
+                label="Phone"
+                value={isEditing ? draft.phone : profile.phone}
+                editing={isEditing}
+                onChange={(value) => handleChange("phone", value)}
+              />
+              <Field
+                label="Website"
+                value={isEditing ? draft.website : profile.website}
+                editing={isEditing}
+                onChange={(value) => handleChange("website", value)}
+              />
+              <Field
+                label="GST Number"
+                value={isEditing ? draft.gstNumber : profile.gstNumber}
+                editing={isEditing}
+                onChange={(value) => handleChange("gstNumber", value)}
+              />
+              <Field
+                label="Start Year"
+                value={isEditing ? draft.startYear : profile.startYear}
+                editing={isEditing}
+                onChange={(value) => handleChange("startYear", value)}
+              />
+            </div>
+
+            <div className="section-gap">
+              <Field
+                label="Business Address"
+                value={isEditing ? draft.address : profile.address}
+                editing={isEditing}
+                onChange={(value) => handleChange("address", value)}
+              />
+            </div>
+
+            <div className="section-gap">
+              <label className="field-label">Store Description</label>
+              {isEditing ? (
+                <textarea
+                  className="textarea"
+                  value={draft.description}
+                  onChange={(e) => handleChange("description", e.target.value)}
+                />
+              ) : (
+                <div className="readonly-block">{profile.description}</div>
+              )}
+            </div>
+          </div>
+
+          <div className="bottom-grid">
+            <div className="card">
+              <div className="card-header">
+                <h3 className="card-title">Brand Summary</h3>
+              </div>
+
+              <div className="info-list">
+                <InfoRow label="Public Store Name" value={profile.storeName} />
+                <InfoRow label="Primary Category" value={profile.businessCategory} />
+                <InfoRow label="Support Contact" value={profile.supportEmail} />
+                <InfoRow label="Business Phone" value={profile.phone} />
+                <InfoRow label="Website" value={profile.website} />
+                <InfoRow label="Store Age" value={`${storeAgeYears} years`} />
               </div>
             </div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: item.color }}>{item.value}</div>
-            <div style={{ fontSize: 13, color: "#94a3b8", marginTop: 6 }}>{item.subtext}</div>
-          </div>
-        ))}
-      </div>
 
-      <div style={{ ...cardStyle, marginBottom: 24 }}>
-        <div style={headerStyle}>
-          <h3 style={titleStyle}>Business Information</h3>
-          <span style={pillStyle}>{isEditing ? "Editing" : "Profile Overview"}</span>
-        </div>
+            <div className="card">
+              <div className="card-header">
+                <h3 className="card-title">Store Health</h3>
+              </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 18 }}>
-          <Field
-            label="Store Name"
-            value={isEditing ? draft.storeName : profile.storeName}
-            editing={isEditing}
-            onChange={(value) => handleChange("storeName", value)}
-          />
-          <Field
-            label="Business Category"
-            value={isEditing ? draft.businessCategory : profile.businessCategory}
-            editing={isEditing}
-            onChange={(value) => handleChange("businessCategory", value)}
-          />
-          <Field
-            label="Support Email"
-            value={isEditing ? draft.supportEmail : profile.supportEmail}
-            editing={isEditing}
-            onChange={(value) => handleChange("supportEmail", value)}
-          />
-          <Field
-            label="Phone"
-            value={isEditing ? draft.phone : profile.phone}
-            editing={isEditing}
-            onChange={(value) => handleChange("phone", value)}
-          />
-          <Field
-            label="Website"
-            value={isEditing ? draft.website : profile.website}
-            editing={isEditing}
-            onChange={(value) => handleChange("website", value)}
-          />
-          <Field
-            label="GST Number"
-            value={isEditing ? draft.gstNumber : profile.gstNumber}
-            editing={isEditing}
-            onChange={(value) => handleChange("gstNumber", value)}
-          />
-          <Field
-            label="Start Year"
-            value={isEditing ? draft.startYear : profile.startYear}
-            editing={isEditing}
-            onChange={(value) => handleChange("startYear", value)}
-          />
-        </div>
-
-        <div style={{ marginTop: 18 }}>
-          <Field
-            label="Business Address"
-            value={isEditing ? draft.address : profile.address}
-            editing={isEditing}
-            onChange={(value) => handleChange("address", value)}
-          />
-        </div>
-
-        <div style={{ marginTop: 18 }}>
-          <label style={labelStyle}>Store Description</label>
-          {isEditing ? (
-            <textarea
-              value={draft.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-              style={{ ...inputStyle, minHeight: 110, resize: "vertical" }}
-            />
-          ) : (
-            <div style={readOnlyBlockStyle}>{profile.description}</div>
-          )}
-        </div>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16 }}>
-        <div style={cardStyle}>
-          <div style={headerStyle}>
-            <h3 style={titleStyle}>Brand Summary</h3>
-          </div>
-
-          <div style={{ display: "grid", gap: 14 }}>
-            <InfoRow label="Public Store Name" value={profile.storeName} />
-            <InfoRow label="Primary Category" value={profile.businessCategory} />
-            <InfoRow label="Support Contact" value={profile.supportEmail} />
-            <InfoRow label="Business Phone" value={profile.phone} />
-            <InfoRow label="Website" value={profile.website} />
-            <InfoRow label="Store Age" value={`${storeAgeYears} years`} />
-          </div>
-        </div>
-
-        <div style={cardStyle}>
-          <div style={headerStyle}>
-            <h3 style={titleStyle}>Store Health</h3>
-          </div>
-
-          <div style={{ display: "grid", gap: 14 }}>
-            <InfoRow label="Verification Status" value="Verified" valueColor="#16a34a" />
-            <InfoRow label="Catalog Status" value="Healthy" valueColor="#2563eb" />
-            <InfoRow label="Customer Trust Score" value="High" valueColor="#d97706" />
-            <InfoRow label="Seller Tier" value="Gold" valueColor="#9333ea" />
+              <div className="info-list">
+                <InfoRow label="Verification Status" value="Verified" valueColor="#16a34a" />
+                <InfoRow label="Catalog Status" value="Healthy" valueColor="#2563eb" />
+                <InfoRow label="Customer Trust Score" value="High" valueColor="#d97706" />
+                <InfoRow label="Seller Tier" value="Gold" valueColor="#9333ea" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -282,11 +577,11 @@ type FieldProps = {
 function Field({ label, value, editing, onChange }: FieldProps) {
   return (
     <div>
-      <label style={labelStyle}>{label}</label>
+      <label className="field-label">{label}</label>
       {editing ? (
-        <input value={value} onChange={(e) => onChange(e.target.value)} style={inputStyle} />
+        <input className="input" value={value} onChange={(e) => onChange(e.target.value)} />
       ) : (
-        <div style={readOnlyStyle}>{value}</div>
+        <div className="readonly">{value}</div>
       )}
     </div>
   );
@@ -302,109 +597,11 @@ function InfoRow({
   valueColor?: string;
 }) {
   return (
-    <div style={infoRowStyle}>
-      <span style={{ fontSize: 14, color: "#64748b" }}>{label}</span>
-      <span style={{ fontSize: 14, fontWeight: 700, color: valueColor }}>{value}</span>
+    <div className="info-row">
+      <span className="info-label">{label}</span>
+      <span className="info-value" style={{ color: valueColor }}>
+        {value}
+      </span>
     </div>
   );
 }
-
-const cardStyle: CSSProperties = {
-  background: "#fff",
-  borderRadius: 16,
-  padding: 20,
-  border: "1px solid #e2e8f0",
-  boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-};
-
-const headerStyle: CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: 18,
-};
-
-const titleStyle: CSSProperties = {
-  margin: 0,
-  fontSize: 18,
-  fontWeight: 700,
-  color: "#0f172a",
-};
-
-const pillStyle: CSSProperties = {
-  fontSize: 12,
-  fontWeight: 600,
-  padding: "6px 10px",
-  borderRadius: 999,
-  background: "#eff6ff",
-  color: "#2563eb",
-};
-
-const labelStyle: CSSProperties = {
-  display: "block",
-  marginBottom: 8,
-  fontSize: 13,
-  fontWeight: 600,
-  color: "#475569",
-};
-
-const inputStyle: CSSProperties = {
-  width: "100%",
-  padding: "11px 12px",
-  borderRadius: 10,
-  border: "1.5px solid #dbe3ef",
-  fontSize: 14,
-  color: "#0f172a",
-  outline: "none",
-  background: "#fff",
-  boxSizing: "border-box",
-};
-
-const readOnlyStyle: CSSProperties = {
-  padding: "11px 12px",
-  borderRadius: 10,
-  border: "1px solid #e2e8f0",
-  fontSize: 14,
-  color: "#0f172a",
-  background: "#f8fafc",
-};
-
-const readOnlyBlockStyle: CSSProperties = {
-  padding: "14px 12px",
-  borderRadius: 10,
-  border: "1px solid #e2e8f0",
-  fontSize: 14,
-  lineHeight: 1.6,
-  color: "#0f172a",
-  background: "#f8fafc",
-};
-
-const infoRowStyle: CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "12px 0",
-  borderBottom: "1px solid #f1f5f9",
-};
-
-const primaryButtonStyle: CSSProperties = {
-  padding: "10px 18px",
-  borderRadius: "10px",
-  border: "none",
-  background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
-  color: "#fff",
-  fontSize: "14px",
-  fontWeight: 600,
-  cursor: "pointer",
-};
-
-const secondaryButtonStyle: CSSProperties = {
-  padding: "10px 16px",
-  borderRadius: "10px",
-  border: "1.5px solid #e2e8f0",
-  background: "#fff",
-  color: "#374151",
-  fontSize: "14px",
-  fontWeight: 500,
-  cursor: "pointer",
-};
