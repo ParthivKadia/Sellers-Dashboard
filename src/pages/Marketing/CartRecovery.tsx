@@ -3,10 +3,10 @@ import MarketingPage from "./MarketingPage";
 export default function CartRecovery() {
   return (
     <MarketingPage
-      title="Abandoned Cart"
+      title="Cart Recovery"
       subtitle="Recover lost sales with cart reminders and checkout recovery campaigns"
       stats={[
-        { label: "Abandoned Carts", value: "214", subtext: "This month", color: "#2563eb", bg: "#eff6ff", icon: "🛒" },
+        { label: "Cart Recovery", value: "214", subtext: "This month", color: "#2563eb", bg: "#eff6ff", icon: "🛒" },
         { label: "Recovered Orders", value: "62", subtext: "29% recovery rate", color: "#16a34a", bg: "#f0fdf4", icon: "🔄" },
         { label: "Recovered Revenue", value: "₹71K", subtext: "From reminders", color: "#d97706", bg: "#fffbeb", icon: "💸" },
         { label: "Avg Cart Value", value: "₹1,940", subtext: "Among abandoned carts", color: "#9333ea", bg: "#faf5ff", icon: "📦" },
