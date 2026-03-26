@@ -1,677 +1,391 @@
 /* ============================================================
-   FILE: src/styles/responsive.css
-   HOW TO USE: Import this ONE file in your main entry point.
-
-   In src/main.tsx  (or src/index.tsx) add ONE line:
-   import "./styles/responsive.css";
-
-   That's it — every page becomes responsive automatically.
+   FILE: src/Styles/Responsive.css
+   PURPOSE: Practical responsive fixes for Tailwind dashboard UI
    ============================================================ */
 
-
-/* ── 1. BASE RESETS ─────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-
-img, video, svg { max-width: 100%; height: auto; display: block; }
-
-/* ── 2. BREAKPOINTS USED ────────────────────────────────────
-   xs  : 0–479px      (small phones)
-   sm  : 480–639px    (large phones)
-   md  : 640–767px    (landscape phones / small tablets)
-   lg  : 768–1023px   (tablets / iPad)
-   xl  : 1024–1279px  (small laptops)
-   2xl : 1280px+      (desktops)
-──────────────────────────────────────────────────────────── */
-
-
-/* ════════════════════════════════════════════════════════════
-   3. LAYOUT — App shell / DashboardLayout
-   ════════════════════════════════════════════════════════════ */
-
-/* Root flex shell that holds sidebar + main column */
-.dashboard-shell {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-/* Main column (topbar + page content) */
-.dashboard-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  min-width: 0; /* prevent flex blowout */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
-/* Scrollable page area */
-.dashboard-page {
-  flex: 1;
-  overflow-y: auto;
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  font: inherit;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Prevent horizontal page overflow from wide children */
+.min-w-0 {
+  min-width: 0;
+}
+
+/* Common wrappers */
+main,
+section,
+article,
+div {
+  min-width: 0;
+}
+
+/* Charts and media blocks */
+.recharts-wrapper,
+.recharts-responsive-container {
+  min-width: 0;
+}
+
+.recharts-surface {
+  max-width: 100%;
+}
+
+/* Table wrappers */
+.table-responsive,
+.overflow-table,
+.table-wrapper,
+.overflow-x-scroll,
+.overflow-x-auto {
+  max-width: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
-
-/* ════════════════════════════════════════════════════════════
-   4. TOPBAR
-   ════════════════════════════════════════════════════════════ */
-
-/* Search bar: full width on small screens */
-@media (max-width: 639px) {
-  /* Hide the search input on tiny screens — icon only */
-  .topbar-search {
-    display: none !important;
-  }
+/* Modal / drawer media safety */
+[role="dialog"],
+.dialog-content,
+.modal-box {
+  max-width: calc(100vw - 24px);
 }
 
-/* Topbar avatar text — hide on phones */
-@media (max-width: 767px) {
-  .topbar-user-name {
-    display: none !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   5. DASHBOARD INDEX — the main grid
-   ════════════════════════════════════════════════════════════ */
-
-/* Tailwind's grid is already responsive via col-span-* classes.
-   These rules handle edge cases and fine-tune padding/gaps. */
-
-/* Reduce page padding on mobile */
-@media (max-width: 767px) {
-  main.flex-1.p-6 { padding: 12px !important; }
-  .grid.gap-6      { gap: 12px !important; }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  main.flex-1.p-6 { padding: 16px !important; }
-  .grid.gap-6      { gap: 14px !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   6. STAT / KPI CARDS (WelcomeCard, StatCards row)
-   ════════════════════════════════════════════════════════════ */
-
-/* Stack stat cards vertically on phones */
-@media (max-width: 639px) {
-  .stat-cards-row {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* 2-column stat grid on small tablets */
-@media (min-width: 640px) and (max-width: 1023px) {
-  .stat-cards-row {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-/* Shrink stat card numbers on mobile */
-@media (max-width: 479px) {
-  .stat-card-value   { font-size: 22px !important; }
-  .stat-card-label   { font-size: 11px !important; }
-  .stat-card-icon    { width: 32px !important; height: 32px !important; font-size: 14px !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   7. CHARTS (ProfitExpensesChart, ProductSalesChart)
-   ════════════════════════════════════════════════════════════ */
-
-/* Make chart containers scroll horizontally if too narrow */
-.chart-container {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.chart-container > * {
-  min-width: 280px; /* never crush charts below this */
-}
-
-/* Reduce chart height on mobile */
-@media (max-width: 639px) {
-  .recharts-wrapper,
-  .chart-inner {
-    height: 200px !important;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .recharts-wrapper,
-  .chart-inner {
-    height: 240px !important;
-  }
-}
-
-/* Hide chart axis tick labels on very small screens */
-@media (max-width: 479px) {
-  .recharts-cartesian-axis-tick-value {
-    font-size: 9px !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   8. TABLES — AllProducts, Inventory, Orders, LowStock, etc.
-   ════════════════════════════════════════════════════════════ */
-
-/* All tables: horizontal scroll on small screens */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  border-radius: inherit;
-}
-
-.table-wrapper table {
-  min-width: 640px; /* table never crushes below this */
-  width: 100%;
-}
-
-/* Tighten table padding on mobile */
-@media (max-width: 767px) {
-  .table-wrapper th,
-  .table-wrapper td {
-    padding: 10px 10px !important;
-    font-size: 12px !important;
+/* Small desktops / tablets */
+@media (max-width: 1024px) {
+  .grid.lg\\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  /* Hide lower-priority columns on phone */
-  .table-col-hide-mobile {
-    display: none !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .table-wrapper th,
-  .table-wrapper td {
-    padding: 11px 12px !important;
-    font-size: 13px !important;
+  .grid.lg\\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  /* Hide on tablet too if flagged */
-  .table-col-hide-tablet {
-    display: none !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   9. PAGE HEADERS (title + action buttons row)
-   ════════════════════════════════════════════════════════════ */
-
-/* Stack title + buttons on mobile */
-@media (max-width: 639px) {
-  .page-header {
+  .lg\\:flex-row {
     flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
   }
 
-  .page-header-actions {
-    width: 100%;
-    display: flex;
-    gap: 8px;
-  }
-
-  .page-header-actions button,
-  .page-header-actions a {
-    flex: 1;
-    justify-content: center;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   10. FILTER BAR (search + dropdowns row)
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .filter-bar {
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-
-  .filter-bar input,
-  .filter-bar select,
-  .filter-bar button {
-    width: 100% !important;
-    min-width: unset !important;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .filter-bar {
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   11. PRODUCT CARDS (grid view)
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  .product-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   12. CATEGORY CARDS
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  .category-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1279px) {
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   13. ADD PRODUCT — two-column form layout
-   ════════════════════════════════════════════════════════════ */
-
-/* Stack form + sidebar panel on mobile */
-@media (max-width: 1023px) {
-  .add-product-layout {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* Tab bar: scrollable on small screens */
-@media (max-width: 639px) {
-  .form-tabs {
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    flex-wrap: nowrap !important;
-    padding-bottom: 2px;
-  }
-
-  .form-tabs button {
-    flex-shrink: 0 !important;
-    font-size: 12px !important;
-    padding: 8px 10px !important;
-  }
-}
-
-/* Two-column field grids → single column on phones */
-@media (max-width: 639px) {
-  .form-grid-2 {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   14. LOW STOCK — item cards
-   ════════════════════════════════════════════════════════════ */
-
-/* Each low-stock row: stack on phone */
-@media (max-width: 639px) {
-  .low-stock-row {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-  }
-
-  .low-stock-row .days-left-block,
-  .low-stock-row .reorder-block {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: 1px solid #f1f5f9;
-    padding: 8px 0 0 !important;
-  }
-
-  .low-stock-row .action-block {
-    width: 100%;
-    flex-direction: row !important;
-    gap: 8px;
-  }
-
-  .low-stock-row .action-block button {
-    flex: 1;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   15. INVENTORY — inline stock edit
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .inventory-edit-row {
-    flex-wrap: wrap !important;
-    gap: 6px !important;
-  }
-
-  .inventory-edit-row input {
-    width: 80px !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   16. MODAL / OVERLAY
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  /* Modals take full screen on phone */
-  .modal-box {
+ @media (max-width: 1024px) {
+  .lg\:w-\[320px\],
+  .lg\:w-80,
+  .lg\:max-w-sm {
     width: 100% !important;
     max-width: 100% !important;
-    margin: 0 !important;
-    border-radius: 16px 16px 0 0 !important;
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
+  }
+
+  .lg\:sticky {
+    position: static !important;
     top: auto !important;
-    transform: none !important;
-    padding: 24px 20px !important;
-  }
-
-  .modal-overlay {
-    align-items: flex-end !important;
   }
 }
+}
 
 
-/* ════════════════════════════════════════════════════════════
-   17. SUMMARY / METRIC ROWS (3-col or 4-col stat grids)
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  .metric-grid-4 {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+/* Tablets */
+@media (max-width: 768px) {
+  .grid.md\\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  .metric-grid-3 {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-  }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-  .metric-grid-4 {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   18. TYPOGRAPHY SCALING
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  .page-title    { font-size: 18px !important; }
-  .page-subtitle { font-size: 12px !important; }
-  .section-title { font-size: 14px !important; }
-  .card-value    { font-size: 20px !important; }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-  .page-title    { font-size: 20px !important; }
-  .page-subtitle { font-size: 13px !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   19. BUTTON SIZING ON MOBILE
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  /* Primary action buttons — full width on tiny screens */
-  .btn-primary-full-mobile {
-    width: 100% !important;
-    justify-content: center !important;
+  .grid.md\\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  /* Shrink icon-only buttons */
-  .btn-icon {
-    width: 34px !important;
-    height: 34px !important;
-    padding: 0 !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   20. BULK ACTION BAR
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .bulk-action-bar {
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-    padding: 10px 14px !important;
-  }
-
-  .bulk-action-bar button {
-    flex: 1 !important;
-    min-width: 80px !important;
-    justify-content: center !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   21. PAGINATION
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .pagination-row {
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 10px !important;
-  }
-
-  .pagination-info { font-size: 12px !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   22. PRICE BREAKDOWN BOX (AddProduct)
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  .price-breakdown {
-    padding: 12px !important;
-    font-size: 12px !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   23. TOP CATEGORIES / PROGRESS BARS
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 479px) {
-  .category-progress-row {
-    gap: 6px !important;
-  }
-  .category-progress-label { font-size: 12px !important; }
-  .category-progress-value { font-size: 12px !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   24. WELCOME / HERO CARD
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .welcome-card-stats {
-    grid-template-columns: 1fr !important;
-    gap: 8px !important;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .welcome-card-stats {
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   25. ORDERS PAGES — status badge + customer column
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 767px) {
-  .order-customer-col { max-width: 120px !important; }
-  .order-address-col  { display: none !important; }
-}
-
-@media (max-width: 479px) {
-  .order-date-col     { display: none !important; }
-  .order-customer-col { max-width: 90px !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   26. CUSTOMERS PAGE
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 767px) {
-  .customer-email-col  { display: none !important; }
-  .customer-joined-col { display: none !important; }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   27. ANALYTICS — chart grid
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 1023px) {
-  .analytics-grid {
+  .grid.md\\:grid-cols-2 {
     grid-template-columns: 1fr !important;
   }
-}
 
-
-/* ════════════════════════════════════════════════════════════
-   28. MARKETING — coupon / campaign cards
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .marketing-card-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .marketing-card-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   29. STORE SETTINGS — two-column form
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 1023px) {
-  .store-settings-layout {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-
-/* ════════════════════════════════════════════════════════════
-   30. SETTINGS PAGES — nav tabs
-   ════════════════════════════════════════════════════════════ */
-
-@media (max-width: 639px) {
-  .settings-tabs {
+  .md\\:flex-row {
     flex-direction: column !important;
   }
 
-  .settings-tabs button {
+  .md\\:items-center {
+    align-items: flex-start !important;
+  }
+
+  .md\\:justify-between {
+    justify-content: flex-start !important;
+  }
+
+  .md\\:w-auto {
     width: 100% !important;
-    text-align: left !important;
-    border-radius: 8px !important;
+  }
+
+  .md\\:max-w-md,
+  .md\\:max-w-lg,
+  .md\\:max-w-xl {
+    max-width: 100% !important;
   }
 }
 
+/* Mobile */
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden;
+  }
 
-/* ════════════════════════════════════════════════════════════
-   31. SCROLLBAR STYLING (all scrollable areas)
-   ════════════════════════════════════════════════════════════ */
+  /* General spacing cleanup */
+  .p-6 {
+    padding: 1rem !important;
+  }
 
-::-webkit-scrollbar              { width: 5px; height: 5px; }
-::-webkit-scrollbar-track        { background: transparent; }
-::-webkit-scrollbar-thumb        { background: #cbd5e1; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover  { background: #94a3b8; }
+  .px-6 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 
+  .py-6 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
 
-/* ════════════════════════════════════════════════════════════
-   32. UTILITY HELPERS (add these classNames to any element)
-   ════════════════════════════════════════════════════════════
+  .gap-6 {
+    gap: 0.75rem !important;
+  }
 
-   .hide-mobile      → hidden below 768px
-   .hide-tablet      → hidden below 1024px
-   .show-mobile-only → only visible below 768px
-   .text-truncate    → single-line ellipsis
-   .touch-scroll     → smooth momentum scroll on iOS
+  .gap-5 {
+    gap: 0.75rem !important;
+  }
 
-   ════════════════════════════════════════════════════════════ */
+  .gap-4 {
+    gap: 0.625rem !important;
+  }
 
-.hide-mobile       { }
-.hide-tablet       { }
-.show-mobile-only  { display: none; }
-.text-truncate     { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.touch-scroll      { -webkit-overflow-scrolling: touch; overflow-y: auto; }
+  /* Grids collapse nicely */
+  .grid,
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4,
+  .sm\\:grid-cols-2,
+  .sm\\:grid-cols-3,
+  .sm\\:grid-cols-4,
+  .md\\:grid-cols-2,
+  .md\\:grid-cols-3,
+  .md\\:grid-cols-4,
+  .lg\\:grid-cols-2,
+  .lg\\:grid-cols-3,
+  .lg\\:grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
 
-@media (max-width: 767px) {
-  .hide-mobile      { display: none !important; }
-  .show-mobile-only { display: block !important; }
+  /* Flex rows stack */
+  .flex-row,
+  .sm\\:flex-row,
+  .md\\:flex-row {
+    flex-direction: column !important;
+  }
+
+  .items-center {
+    align-items: flex-start;
+  }
+
+  .justify-between {
+    justify-content: flex-start;
+  }
+
+  /* Buttons and inputs */
+  button,
+  .btn,
+  a[role="button"] {
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Tables scroll instead of breaking layout */
+  table {
+    min-width: 640px;
+  }
+
+  /* Cards / panels */
+  .rounded-2xl,
+  .rounded-xl,
+  .rounded-lg {
+    border-radius: 1rem;
+  }
+
+  /* Typography scaling */
+  h1,
+  .text-4xl,
+  .text-3xl {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  h2,
+  .text-2xl {
+    font-size: 1.25rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .text-xl {
+    font-size: 1.125rem !important;
+  }
+
+  .text-lg {
+    font-size: 1rem !important;
+  }
+
+  .text-sm {
+    font-size: 0.8125rem !important;
+  }
+
+  /* Sidebar / sheet style layouts */
+  aside {
+    max-width: 100%;
+  }
+
+  /* Chart containers */
+  .recharts-wrapper,
+  .recharts-responsive-container {
+    min-height: 220px;
+  }
+
+  /* Dialogs */
+  [role="dialog"],
+  .dialog-content,
+  .modal-box {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 8px !important;
+  }
 }
 
-@media (max-width: 1023px) {
-  .hide-tablet      { display: none !important; }
+/* Extra small phones */
+@media (max-width: 480px) {
+  .p-4,
+  .p-5,
+  .p-6 {
+    padding: 0.875rem !important;
+  }
+
+  .px-4,
+  .px-5,
+  .px-6 {
+    padding-left: 0.875rem !important;
+    padding-right: 0.875rem !important;
+  }
+
+  .py-4,
+  .py-5,
+  .py-6 {
+    padding-top: 0.875rem !important;
+    padding-bottom: 0.875rem !important;
+  }
+
+  .text-2xl,
+  .text-3xl,
+  .text-4xl {
+    font-size: 1.25rem !important;
+  }
+
+  .text-xl {
+    font-size: 1rem !important;
+  }
+
+  .gap-6,
+  .gap-5,
+  .gap-4 {
+    gap: 0.625rem !important;
+  }
+
+  table {
+    min-width: 560px;
+  }
+
+  .recharts-cartesian-axis-tick-value {
+    font-size: 10px !important;
+  }
 }
 
+/* Utility helpers you can use manually if needed */
+.responsive-stack {
+  display: flex;
+  gap: 1rem;
+}
 
-/* ════════════════════════════════════════════════════════════
-   33. SAFE AREA (iPhone notch / home indicator)
-   ════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .responsive-stack {
+    flex-direction: column !important;
+  }
+}
 
-@supports (padding: env(safe-area-inset-bottom)) {
-  .dashboard-page {
-    padding-bottom: env(safe-area-inset-bottom);
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.responsive-table > table {
+  min-width: 640px;
+}
+
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.responsive-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.responsive-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .responsive-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .responsive-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .responsive-grid-2,
+  .responsive-grid-3,
+  .responsive-grid-4 {
+    grid-template-columns: 1fr;
   }
 }
