@@ -1,9 +1,3 @@
-/* ============================================================
-   FILE: src/Styles/Responsive.css
-   PURPOSE: Practical responsive fixes for Tailwind dashboard UI
-   ============================================================ */
-
-/* Base */
 *,
 *::before,
 *::after {
@@ -14,14 +8,22 @@ html,
 body,
 #root {
   width: 100%;
+  max-width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden !important;
+}
+
+body {
+  overflow-x: hidden !important;
 }
 
 img,
 svg,
 video,
-canvas {
+canvas,
+iframe {
   display: block;
   max-width: 100%;
   height: auto;
@@ -31,8 +33,12 @@ button,
 input,
 select,
 textarea {
-  max-width: 100%;
   font: inherit;
+  max-width: 100%;
+}
+
+body * {
+  min-width: 0;
 }
 
 table {
@@ -40,291 +46,221 @@ table {
   border-collapse: collapse;
 }
 
-/* Prevent horizontal page overflow from wide children */
-.min-w-0 {
-  min-width: 0;
-}
-
-/* Common wrappers */
-main,
-section,
-article,
-div {
-  min-width: 0;
-}
-
-/* Charts and media blocks */
 .recharts-wrapper,
 .recharts-responsive-container {
-  min-width: 0;
+  max-width: 100% !important;
+  min-width: 0 !important;
 }
 
-.recharts-surface {
-  max-width: 100%;
-}
-
-/* Table wrappers */
-.table-responsive,
-.overflow-table,
-.table-wrapper,
-.overflow-x-scroll,
-.overflow-x-auto {
-  max-width: 100%;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Modal / drawer media safety */
-[role="dialog"],
-.dialog-content,
-.modal-box {
-  max-width: calc(100vw - 24px);
-}
-
-/* Small desktops / tablets */
 @media (max-width: 1024px) {
-  .grid.lg\\:grid-cols-4 {
+  .lg\:grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  .grid.lg\\:grid-cols-3 {
+  .lg\:grid-cols-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  .lg\\:flex-row {
+  .lg\:flex-row {
     flex-direction: column !important;
-  }
-
- @media (max-width: 1024px) {
-  .lg\:w-\[320px\],
-  .lg\:w-80,
-  .lg\:max-w-sm {
-    width: 100% !important;
-    max-width: 100% !important;
   }
 
   .lg\:sticky {
     position: static !important;
     top: auto !important;
   }
-}
-}
 
-
-/* Tablets */
-@media (max-width: 768px) {
-  .grid.md\\:grid-cols-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  .grid.md\\:grid-cols-3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  .grid.md\\:grid-cols-2 {
-    grid-template-columns: 1fr !important;
-  }
-
-  .md\\:flex-row {
-    flex-direction: column !important;
-  }
-
-  .md\\:items-center {
-    align-items: flex-start !important;
-  }
-
-  .md\\:justify-between {
-    justify-content: flex-start !important;
-  }
-
-  .md\\:w-auto {
+  .lg\:w-80,
+  .lg\:max-w-sm,
+  .lg\:max-w-md,
+  .lg\:max-w-lg {
     width: 100% !important;
-  }
-
-  .md\\:max-w-md,
-  .md\\:max-w-lg,
-  .md\\:max-w-xl {
     max-width: 100% !important;
   }
 }
 
-/* Mobile */
-@media (max-width: 640px) {
-  body {
-    overflow-x: hidden;
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    overflow-x: hidden !important;
   }
 
-  /* General spacing cleanup */
-  .p-6 {
-    padding: 1rem !important;
-  }
-
-  .px-6 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-
-  .py-6 {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  .gap-6 {
-    gap: 0.75rem !important;
-  }
-
-  .gap-5 {
-    gap: 0.75rem !important;
-  }
-
-  .gap-4 {
-    gap: 0.625rem !important;
-  }
-
-  /* Grids collapse nicely */
-  .grid,
-  .grid-cols-2,
-  .grid-cols-3,
-  .grid-cols-4,
-  .sm\\:grid-cols-2,
-  .sm\\:grid-cols-3,
-  .sm\\:grid-cols-4,
-  .md\\:grid-cols-2,
-  .md\\:grid-cols-3,
-  .md\\:grid-cols-4,
-  .lg\\:grid-cols-2,
-  .lg\\:grid-cols-3,
-  .lg\\:grid-cols-4 {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Flex rows stack */
-  .flex-row,
-  .sm\\:flex-row,
-  .md\\:flex-row {
-    flex-direction: column !important;
-  }
-
-  .items-center {
-    align-items: flex-start;
-  }
-
-  .justify-between {
-    justify-content: flex-start;
-  }
-
-  /* Buttons and inputs */
-  button,
-  .btn,
-  a[role="button"] {
+  main,
+  section,
+  article,
+  div {
     max-width: 100%;
   }
 
-  input,
-  select,
-  textarea {
-    width: 100%;
-    min-width: 0;
+  .grid-cols-4,
+  .grid-cols-3,
+  .grid-cols-2,
+  .sm\:grid-cols-4,
+  .sm\:grid-cols-3,
+  .sm\:grid-cols-2,
+  .md\:grid-cols-4,
+  .md\:grid-cols-3,
+  .md\:grid-cols-2,
+  .lg\:grid-cols-4,
+  .lg\:grid-cols-3,
+  .lg\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
   }
 
-  /* Tables scroll instead of breaking layout */
-  table {
-    min-width: 640px;
+  .flex-row,
+  .sm\:flex-row,
+  .md\:flex-row,
+  .lg\:flex-row {
+    flex-direction: column !important;
   }
 
-  /* Cards / panels */
-  .rounded-2xl,
-  .rounded-xl,
-  .rounded-lg {
-    border-radius: 1rem;
+  .items-center,
+  .sm\:items-center,
+  .md\:items-center {
+    align-items: flex-start !important;
   }
 
-  /* Typography scaling */
-  h1,
+  .justify-between,
+  .sm\:justify-between,
+  .md\:justify-between {
+    justify-content: flex-start !important;
+  }
+
+  .p-6 {
+    padding: 12px !important;
+  }
+
+  .px-6 {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .py-6 {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .p-5 {
+    padding: 12px !important;
+  }
+
+  .px-5 {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .py-5 {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .gap-6 {
+    gap: 12px !important;
+  }
+
+  .gap-5 {
+    gap: 12px !important;
+  }
+
+  .gap-4 {
+    gap: 10px !important;
+  }
+
   .text-4xl,
   .text-3xl {
     font-size: 1.5rem !important;
     line-height: 1.2 !important;
   }
 
-  h2,
   .text-2xl {
     font-size: 1.25rem !important;
-    line-height: 1.25 !important;
+    line-height: 1.3 !important;
   }
 
   .text-xl {
     font-size: 1.125rem !important;
   }
 
-  .text-lg {
-    font-size: 1rem !important;
-  }
-
-  .text-sm {
-    font-size: 0.8125rem !important;
-  }
-
-  /* Sidebar / sheet style layouts */
   aside {
+    max-width: 100% !important;
+  }
+
+  .ml-64,
+  .md\:ml-64,
+  .lg\:ml-64,
+  .pl-64,
+  .md\:pl-64,
+  .lg\:pl-64 {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .w-full {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .overflow-x-auto,
+  .overflow-x-scroll {
     max-width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Chart containers */
-  .recharts-wrapper,
-  .recharts-responsive-container {
-    min-height: 220px;
-  }
-
-  /* Dialogs */
-  [role="dialog"],
-  .dialog-content,
-  .modal-box {
+  [role="dialog"] {
     width: calc(100vw - 16px) !important;
     max-width: calc(100vw - 16px) !important;
     margin: 8px !important;
   }
 }
 
-/* Extra small phones */
 @media (max-width: 480px) {
-  .p-4,
+  .p-6,
   .p-5,
-  .p-6 {
-    padding: 0.875rem !important;
+  .p-4 {
+    padding: 10px !important;
   }
 
-  .px-4,
+  .px-6,
   .px-5,
-  .px-6 {
-    padding-left: 0.875rem !important;
-    padding-right: 0.875rem !important;
+  .px-4 {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
   }
 
-  .py-4,
+  .py-6,
   .py-5,
-  .py-6 {
-    padding-top: 0.875rem !important;
-    padding-bottom: 0.875rem !important;
+  .py-4 {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
 
-  .text-2xl,
+  .gap-6,
+  .gap-5,
+  .gap-4 {
+    gap: 8px !important;
+  }
+
+  .text-4xl,
   .text-3xl,
-  .text-4xl {
-    font-size: 1.25rem !important;
+  .text-2xl {
+    font-size: 1.2rem !important;
+    line-height: 1.25 !important;
   }
 
   .text-xl {
     font-size: 1rem !important;
   }
 
-  .gap-6,
-  .gap-5,
-  .gap-4 {
-    gap: 0.625rem !important;
-  }
-
-  table {
-    min-width: 560px;
+  .text-lg {
+    font-size: 0.95rem !important;
   }
 
   .recharts-cartesian-axis-tick-value {
@@ -332,60 +268,13 @@ div {
   }
 }
 
-/* Utility helpers you can use manually if needed */
-.responsive-stack {
-  display: flex;
-  gap: 1rem;
-}
 
-@media (max-width: 640px) {
-  .responsive-stack {
-    flex-direction: column !important;
-  }
-}
 
-.responsive-table {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
 
-.responsive-table > table {
-  min-width: 640px;
-}
+/* /* ============================================================
+   FILE: src/Styles/Responsive.css
+   PURPOSE: Practical responsive fixes for Tailwind dashboard UI
+   ============================================================ */
 
-.responsive-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.responsive-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.responsive-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (max-width: 1024px) {
-  .responsive-grid-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .responsive-grid-3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .responsive-grid-2,
-  .responsive-grid-3,
-  .responsive-grid-4 {
-    grid-template-columns: 1fr;
-  }
-}
+/* Base */
+/* 
